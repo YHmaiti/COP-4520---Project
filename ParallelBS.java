@@ -6,13 +6,14 @@ public class ParallelBS implements Runnable{
     static Map<Thread, Integer> map = new HashMap<>();
 
     public static void main(String[] args) throws Exception{
+        // The amount of memory prior to execution of the threads
+        long preSortingMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
         int size = getRandomNum();
         testData = new int[size];
 
         for(int j = 0; j < size; j++)
             testData[j] = getRandomNum();
-
-        int[] og = testData.clone();
 
         long start = System.currentTimeMillis();
 
@@ -34,19 +35,16 @@ public class ParallelBS implements Runnable{
 
         long end = System.currentTimeMillis();
 
-        System.out.println(end - start);
+        System.out.println("Execution Time: " + (end - start) + "ms");
 
-        testData = og;
+        long postSortingMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 
-        start = System.currentTimeMillis();
+        long memoryUsed = postSortingMemory - preSortingMemory;
 
-        bubbleSort();
-
-        end = System.currentTimeMillis();
-
-        System.out.println(end - start);
+        System.out.println("Total Memory Usage: " + memoryUsed + "mb");
     }
 
+    // Runs the concurrent bubble sort algorithm
     @Override
     public void run()
     {   
@@ -54,18 +52,25 @@ public class ParallelBS implements Runnable{
         int len = testData.length;
 
         int stopOuter;
+        int stopInner;
 
         if(len % 2 == 0)
             stopOuter = len / 2;
         else
             stopOuter = (len / 2) + (1 - start);
 
+        // So the program can save time by not having to 
+        // constantly calculate len - 2
+        stopInner = len - 2;
+
         for(int i = 1; i < stopOuter; i++)
-            for(int j = start; j < len - 2; j += 2)
+            for(int j = start; j < stopInner; j += 2)
                 if(testData[j] > testData[j + 2])
                     swap(testData, j, j + 2);
     }
 
+    // Merge in O(n) time the even and odd portions of the array to 
+    // ensure everything is sorted
     private static void combine(){
         int[] newArray = new int[testData.length];
 
@@ -102,6 +107,7 @@ public class ParallelBS implements Runnable{
         testData = newArray;
     }
 
+    // The standard iterative bubble sort
     private static void bubbleSort(){
         for(int i = 0; i < testData.length - 1; i++)
             for(int j = 0; j < testData.length - i - 1; j++)
@@ -115,7 +121,8 @@ public class ParallelBS implements Runnable{
         nums[j] = temp;
     }
 
+    // Will generate a random array size from [1, 100000]
     private static int getRandomNum(){
-        return (int) (Math.random() * 100000);
+        return (int) (Math.random() * 100000) + 1;
     }
 }
