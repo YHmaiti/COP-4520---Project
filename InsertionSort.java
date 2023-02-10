@@ -47,7 +47,7 @@ public class InsertionSort {
         // min is the minimum index
 
         // loop through the array to the max index
-        for (int i = min; i < max; ++i) {
+        for (int i = 0; i < max; ++i) {
 
             // the current item
             int target = arr[i];
@@ -78,7 +78,8 @@ public class InsertionSort {
     // driver function
     public static void main(String[] args) {
 
-        System.out.println("Max processors: " + Runtime.getRuntime().availableProcessors());
+        // System.out.println("Max processors: " +
+        // Runtime.getRuntime().availableProcessors());
 
         long pStart = 0; // the times for the parallel version
         long pEnd = 0;
@@ -93,7 +94,7 @@ public class InsertionSort {
 
         // create an array of random ints for testing
         Random rand = new Random();
-        int[] arr = new int[rand.nextInt(1000)]; // the size of the array is random
+        int[] arr = new int[rand.nextInt(100000)]; // the size of the array is random
 
         // each index of the array contains a random number
         for (int i = 0; i < arr.length; i++) {
@@ -102,13 +103,15 @@ public class InsertionSort {
 
         }
 
-        System.out.println("----------Array before sorting----------");
-
-        for (int i = 0; i < arr.length; i++) {
-
-            System.out.println(arr[i]);
-
-        }
+        /*
+         * System.out.println("----------Array before sorting----------");
+         * 
+         * for (int i = 0; i < arr.length; i++) {
+         * 
+         * System.out.println(arr[i]);
+         * 
+         * }
+         */
 
         // duplicate the array to test with iterative version
         int[] itArray = new int[arr.length];
@@ -164,13 +167,15 @@ public class InsertionSort {
 
         pDuration = pEnd - pStart;
 
-        System.out.println("----------Array after parallel sort----------");
+        // System.out.println("----------Array after parallel sort----------");
 
-        for (int i = 0; i < arr.length; i++) {
-
-            System.out.println(arr[i]);
-
-        }
+        /*
+         * for (int i = 0; i < arr.length; i++) {
+         * 
+         * System.out.println(arr[i]);
+         * 
+         * }
+         */
 
         // close the scanner
         // sc.close();
@@ -182,13 +187,15 @@ public class InsertionSort {
         sEnd = System.currentTimeMillis();
         sDuration = sEnd - sStart;
 
-        System.out.println("----------Array after sequential sort----------");
+        // System.out.println("----------Array after sequential sort----------");
 
-        for (int i = 0; i < itArray.length; i++) {
-
-            System.out.println(itArray[i]);
-
-        }
+        /*
+         * for (int i = 0; i < itArray.length; i++) {
+         * 
+         * System.out.println(itArray[i]);
+         * 
+         * }
+         */
 
         System.out.println("Duration of parallel insertion sort with " + arr.length + " elements: " + pDuration);
         System.out.println("Duration of sequential insertion sort with " + arr.length + " elements: " + sDuration);
