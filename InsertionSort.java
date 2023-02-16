@@ -79,6 +79,9 @@ public class InsertionSort {
         int min = 0;
         int threads = 12;
 
+        // the amount of memory prior to execution of the threads
+        long preSortingMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
         // create an array of random ints for testing
         Random rand = new Random();
         int[] arr = new int[rand.nextInt(100000)]; // the size of the array is random
@@ -139,6 +142,10 @@ public class InsertionSort {
 
         pDuration = pEnd - pStart;
 
+        long postSortingMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+        long memoryUsed = postSortingMemory - preSortingMemory;
+
         // run sequential version to compare
         sStart = System.currentTimeMillis();
         InsertionSort ob = new InsertionSort();
@@ -148,6 +155,7 @@ public class InsertionSort {
 
         System.out.println("Duration of parallel insertion sort with " + arr.length + " elements: " + pDuration);
         System.out.println("Duration of sequential insertion sort with " + arr.length + " elements: " + sDuration);
+        System.out.println("Total Memory Usage: " + memoryUsed + " mb");
 
     }
 
