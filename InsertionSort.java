@@ -39,9 +39,9 @@ public class InsertionSort {
     // parallel insertion sort
     public static Runnable parallel(int arr[], int max) {
 
-        // if (max <= arr.length) {
-        // max = arr.length - 1;
-        // }
+        if (max <= arr.length) {
+            max = arr.length - 1;
+        }
 
         // have multiple parts of the array
         // sorted on different threads
@@ -152,10 +152,6 @@ public class InsertionSort {
         ob.sequential(itArray);
         sEnd = System.currentTimeMillis();
         sDuration = sEnd - sStart;
-
-        for (int i = 0; i < arr.length; i++) {
-            System.out.println(arr[i]);
-        }
 
         System.out.println("Duration of parallel insertion sort with " + arr.length + " elements: " + pDuration);
         System.out.println("Duration of sequential insertion sort with " + arr.length + " elements: " + sDuration);
