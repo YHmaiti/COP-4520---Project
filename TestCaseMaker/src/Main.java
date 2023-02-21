@@ -5,7 +5,7 @@ import java.util.SplittableRandom;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        final int QUANTITY = (int)Math.pow(10, 6);
+        final int QUANTITY = 5 * (int)Math.pow(10, 6);
         final int MIN = -1 * QUANTITY;
         final int MAX = QUANTITY;
 

@@ -11,11 +11,12 @@ public class MakeTestCases{
         makeTestFile("MediumTC1.txt", (int) Math.pow(10, 5));
         makeTestFile("MediumTC2.txt", (int) Math.pow(10, 5) * 5);
         makeTestFile("LargeTC1.txt", (int) Math.pow(10, 6));
+        makeTestFile("LargeTC2.txt", (int) Math.pow(10, 6) * 5);
     }
 
     private static void makeTestFile(String name, int size){
         try{
-            Scanner reader = new Scanner(new File("../TestCaseMaker/input.txt"));
+            Scanner reader = new Scanner(new File("../TestCaseMaker/src/input.txt"));
             FileWriter writer = new FileWriter(name);
 
             for(int i = 0; i < size; i++)
