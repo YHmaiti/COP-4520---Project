@@ -41,7 +41,7 @@ public class ParallelBS implements Runnable{
 
         long memoryUsed = postSortingMemory - preSortingMemory;
 
-        System.out.println("Total Memory Usage: " + memoryUsed + "mb");
+        System.out.println("Total Memory Usage: " + memoryUsed + "bytes");
     }
 
     // Runs the concurrent bubble sort algorithm
