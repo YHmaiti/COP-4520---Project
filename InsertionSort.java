@@ -155,7 +155,7 @@ public class InsertionSort {
 
         System.out.println("Duration of parallel insertion sort with " + arr.length + " elements: " + pDuration);
         System.out.println("Duration of sequential insertion sort with " + arr.length + " elements: " + sDuration);
-        System.out.println("Total Memory Usage: " + memoryUsed + " mb");
+        System.out.println("Total Memory Usage: " + memoryUsed + " bytes");
 
     }
 
