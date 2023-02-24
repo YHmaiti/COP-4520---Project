@@ -190,7 +190,7 @@ public class Selectionsort {
        
     public static void main(String a[]){  
         Random random = new Random();
-        int[] arr1 = random.ints(200000, 10,10000).toArray();
+        int[] arr1 = random.ints(100000, 10,10000).toArray();
 
         // System.out.println("before Selection Sort");  
         // for(int i:arr1){  
@@ -200,7 +200,7 @@ public class Selectionsort {
         long startTime = System.nanoTime();
         // selectionSort(arr1);//sorting array using selection sort  
         MMBPSS(arr1);
-        System.out.println("\n" + (isSorted(arr1) ? "Array sorted successfully" : "unsuccessful sorting"));
+        // System.out.println("\n" + (isSorted(arr1) ? "Array sorted successfully" : "unsuccessful sorting"));
         long endTime = System.nanoTime();
 
         // System.out.println("After Selection Sort");  
