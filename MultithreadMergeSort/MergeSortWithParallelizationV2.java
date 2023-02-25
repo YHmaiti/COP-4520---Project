@@ -13,11 +13,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.Arrays;
 
@@ -185,85 +183,194 @@ public class MergeSortWithParallelizationV2 {
     }
 
     public static void main(String[] args) throws Exception {
-        // int[] arr = readFromFile("input.txt");
-
+        
 
         // for now we generate an array with a random size and content for testing purposes
         // a more thorough testing will be done later with a proper evaluation
-        int [] array = new int[(int)Math.pow(10, 6)];
+        // int [] array = new int[(int)Math.pow(10, 6)];
 
-        // generate an array with random values 
-        array = Arrays.stream(array).map(i -> (int) (Math.random() * Math.pow(10, 6))).toArray();
+        // we take from the command line the name for each of the test files in total 6 
+        // and we store the names in string arrays
+        String[] testFiles = new String[6];
+        try{
+            testFiles = Arrays.stream(new File("../TestCases").listFiles()).filter(f -> f.getName().endsWith(".txt")).map(f -> f.getName()).toArray(String[]::new);
+        }catch(Exception e){
+            System.out.println("Error: " + e);
+        }
+        // we declare a 2D array to store the results for the time and memory 
+        // for each of the test cases
+        double[][] results = new double[6][2];
 
-        // inform the user about the number maximum of threads that can be used on the machine they have now 
-        System.out.println("The maximum number of threads that can be used on this machine is -> " + Runtime.getRuntime().availableProcessors());
-        // we prompt the user for the number of threads that will be used and tested 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter the number of threads you want to use (2 for optimal performance): ");
-        int  numThreads = sc.nextInt();
-        sc.close();
 
-        // we check that the number of threads inputted by the user is not less than 1
-        // and also that it is not more than the number of threads available in the machine
-        if (numThreads < 1 || numThreads > Runtime.getRuntime().availableProcessors()) {
-            System.out.println("Invalid number of threads. We will automatically use the maximum number of threads available in your machine instead minus two.");
-            numThreads = Runtime.getRuntime().availableProcessors() - 2;
+        // test that we got all the files correctly
+        System.out.println(Arrays.toString(testFiles));
+        int totaltests = 6, testCase = 0;
+
+        while (testCase < totaltests) {
+            // loop through the current test file for the test case and read the array
+            // from the file
+            int[] array = new int[0];
+            try (BufferedReader br = new BufferedReader(new FileReader("../TestCases/" + testFiles[testCase]))) {
+                System.out.println("The current test file is -> " + testFiles[testCase]);
+                // loop through the file and read the array
+                File file = new File("../TestCases/" + testFiles[testCase]);
+                System.out.println("The size of the file is -> " + file.length());
+                array = new int[(int)file.length()];
+                int i = 0;
+                String line;
+                while ((line = br.readLine()) != null) {
+                    array[i++] = Integer.parseInt(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("The size of the array is -> " + array.length);
+        
+            // generate an array with random values 
+            // array = Arrays.stream(array).map(i -> (int) (Math.random() * Math.pow(10, 6))).toArray();
+
+            // inform the user about the number maximum of threads that can be used on the machine they have now 
+            System.out.println("The maximum number of threads that can be used on this machine is -> " + Runtime.getRuntime().availableProcessors());
+            // we prompt the user for the number of threads that will be used and tested 
+            System.out.print("The number of threads we use is -> " + 12);
+            int  numThreads = 4;
+
+            // we check that the number of threads inputted by the user is not less than 1
+            // and also that it is not more than the number of threads available in the machine
+            if (numThreads < 1 || numThreads > Runtime.getRuntime().availableProcessors()) {
+                System.out.println("Invalid number of threads. We will automatically use 4.");
+                numThreads = Runtime.getRuntime().availableProcessors() - 2;
+            }
+
+            // log the time 
+            startTime = System.currentTimeMillis();
+
+            // log the consumtion of memory 
+            Long startMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+            /*
+            * @param array: the array to be sorted
+            * @param numThreads: the number of threads to be used for the parallelization
+            * @return: the sorted array
+            * @throws: InterruptedException, ExecutionException
+            * @interfaces: ExecutorService, Future
+            * @classes: Executors
+            * @methods: submit(), get(), shutdown()
+            */
+            array = MergeSortParallel(array, numThreads);
+            //array = SimpleMergeSortWithoutParallelization(array);
+            // log the end time 
+            endTime = System.currentTimeMillis();
+
+            // log the end memory consumption
+            Long endMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+            // print the time taken
+            System.out.println("\nTime taken: " + (endTime - startTime) + " ms");
+
+            // print the memory consumption
+            System.out.println("Memory consumption: " + (endMemory - startMemory) + " bytes");
+
+            // store the results in the 2D array
+            results[testCase][0] = (endTime - startTime);
+            results[testCase][1] = (endMemory - startMemory);
+
+            /*
+            * @param array: the array to be checked for sorting
+            * @return: true if the array is sorted, false otherwise
+            * @interpretation: if the result is true, the array is sorted, so then we print the output to 
+            *                  a file and print a confirmation message to the console. Otherwise, we print
+            *                  a message to the console and exit the program.
+            */
+
+            // another option: boolean result  = (Arrays.equals(array, Arrays.stream(array).sorted().toArray()));
+
+            final int[] finalArray = Arrays.copyOf(array, array.length);
+            boolean result = array.length == 0 || IntStream.range(0, array.length - 1).allMatch(i -> finalArray[i] <= finalArray[i + 1]);
+
+            if (result) {
+                success(array);
+            } else {
+                failed();
+            }
+        
+            testCase++;
+
         }
 
-        // log the time 
-        startTime = System.currentTimeMillis();
 
-        // log the consumtion of memory 
-        Long startMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        // generalize finalized outut in the text format expected 
+        generateOutputWithSpecificFormat(results, testFiles);
 
+    }
+
+    // output file
+    private static void generateOutputWithSpecificFormat(double[][] results, String[] testFiles) throws IOException {
+
+        // format:
         /*
-         * @param array: the array to be sorted
-         * @param numThreads: the number of threads to be used for the parallelization
-         * @return: the sorted array
-         * @throws: InterruptedException, ExecutionException
-         * @interfaces: ExecutorService, Future
-         * @classes: Executors
-         * @methods: submit(), get(), shutdown()
-         */
-        array = MergeSortParallel(array, numThreads);
-        //array = SimpleMergeSortWithoutParallelization(array);
-        // log the end time 
-        endTime = System.currentTimeMillis();
-
-        // log the end memory consumption
-        Long endMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-
-        // print the time taken
-        System.out.println("Time taken: " + (endTime - startTime) + " ms");
-
-        // print the memory consumption
-        System.out.println("Memory consumption: " + (endMemory - startMemory) + " bytes");
-
-        /*
-         * @param array: the array to be checked for sorting
-         * @return: true if the array is sorted, false otherwise
-         * @interpretation: if the result is true, the array is sorted, so then we print the output to 
-         *                  a file and print a confirmation message to the console. Otherwise, we print
-         *                  a message to the console and exit the program.
+         * FolderName: {SortName_Results}
+         * filename: {SortName}_{testCaseSize}.txt
+         * Content:
+         * 
+         * test case size1:
+         * Execution time (ms):
+         * Memory usage (bytes):
+         * 
+         * test case size2:
+         * Execution time (ms):
+         * Memory usage (bytes):
          */
 
-        // another option: boolean result  = (Arrays.equals(array, Arrays.stream(array).sorted().toArray()));
-
-        final int[] finalArray = Arrays.copyOf(array, array.length);
-        boolean result = array.length == 0 || IntStream.range(0, array.length - 1).allMatch(i -> finalArray[i] <= finalArray[i + 1]);
-
-        if (result) {
-            success(array);
-        } else {
-            failed();
+        // create the folder if it does not exist
+        File folder = new File("./MergeSortParallel_Results");
+        if (!folder.exists()) {
+            folder.mkdir();
         }
 
+        // create the file if it does not exist
+        File file = new File("./MergeSortParallel_Results/MergeSortParallel_Results.txt");
+
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
+        // write to the file
+        FileWriter fw = new FileWriter(file.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fw);
+        // declare an array of sizes of the test cases
+        String[] sizes = {"10^8", "5 * 10^8", "10^7", "5 * 10^7", "10^6", "5 * 10^6"};
+        int sizeIndex = 0;
+        // write the content only, if the file has content overwrite it
+        bw.write("Content:\n");
+        for (int i = 0; i < testFiles.length; i++) {
+            bw.write("test case size: " + sizes[sizeIndex] + "\n");
+            bw.write("\tExecution time (ms): " + results[i][0] + "\n");
+
+            // we write the memory usage in scientific expression to avoid large numbers in teh form num * 10^x
+            bw.write("\tMemory usage (bytes): " + String.format("%.4f", results[i][1]) + "\n");
+
+            // we write to terminal also for debugging 
+            System.out.println("test case size: " + sizes[sizeIndex++]);
+            System.out.println("\tExecution time (ms): " + results[i][0]);
+            System.out.println("\tMemory usage (bytes): " + String.format("%.4f", results[i][1]));
+
+        }
+
+        bw.close();
+
+    }
+
+    // method to write scientifique expression for large integers
+    private static String formatNumber(long number) {
+        return String.format("%,d", number);
     }
 
     // methods that handle resulting output after the processing of the array ends
     private static void success(int[] array) throws IOException {
         System.out.println("The array is sorted");
-        printOutput(array);
+        //printOutput(array);
     }
 
     private static void failed() {
