@@ -1,0 +1,38 @@
+int[] MergeSortParallel(arr: int[], numThreads: int) -> int[]:
+
+    if arr.length < 2:
+        return arr
+
+    executor = newFixedThreadPool(numThreads)
+
+    futures = new Future[numThreads]
+
+    for (i = 0; i < numThreads; i++):
+        start = i * arr.length / numThreads
+        end = (i + 1) * arr.length / numThreads
+        subArray = copyOfRange(arr, start, end)
+        futures[i] = executor.submit(() -> SimpleMergeSortWithoutParallelization(subArray))
+
+    results = new int[numThreads][]
+    IntStream.range(0, numThreads).mapToObj:
+        (i -> {
+            try:
+              return results[i] = futures[i].get()
+            catch (InterruptedException | ExecutionException e):
+                e.printStackTrace()
+        
+            return null
+        }).toArray(int[][]::new)
+
+    while (numThreads > 1):
+        midThreadCount = (numThreads + 1) / 2
+        finalResults = results
+        results = IntStream.range(0, numThreads / 2).mapToObj:
+                    ((i -> merge(finalResults[i], 
+                    finalResults[i + getMidThreadCount]
+                    )).toArray(int[][]::new)
+        
+        numThreads = midThreadCount
+
+    executor.shutdown()
+    return results[0]
