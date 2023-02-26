@@ -1,0 +1,19 @@
+int[] parallel(arr: int[], max: int):
+
+        if max <= arr.length
+            max = arr.length - 1;
+        
+        for (i = 0; i <= max; ++i):
+
+            target = arr[i];
+            j = i - 1;
+
+            while (j >= 0 && arr[j] > target):
+
+                arr[j + 1] = arr[j];
+                j = j - 1;
+            
+
+            arr[j + 1] = target;
+
+    
