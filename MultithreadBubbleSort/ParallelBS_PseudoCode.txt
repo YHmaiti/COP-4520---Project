@@ -1,0 +1,50 @@
+main:
+    create 2 threads
+    map one thread onto 0
+    map the other thread onto 1
+
+    start threads
+
+    run parallel bubble sort function
+    run combine function
+
+parallel bubble sort:
+    startIndex = value thread is mapped onto
+
+    if arrLength is even:
+        stopOuterLoopIndex = arrLength / 2
+    else:
+        stopOuterLoopIndex = (arrLength / 2) + (1 - startIndex)
+
+    stopInnerLoopIndex = arrLength - 2
+
+    for i = 1; i < stopOuterLoopIndex; i++:
+        for j = startIndex; j < stopInnerLoopIndex; j += 2:
+            if testData[j] > testData[j + 2]:
+                swap(testData[j], testData[j + 2])
+
+combine:
+    even = 0
+    odd = 1
+
+    newArray = array of length testData.length
+
+    while odd < testData.length and even < testData.length:
+        newArray[i] = min(testData[even], testData[odd])
+
+        if [even] was chosen, even += 2
+        if [odd] was chosen, odd += 2
+
+        i += 1
+
+    if odd >= testData.length:
+        fill rest of even indexed slots in newArray from (even, testData.length)
+    else:
+        fill rest of odd indexed slots in newArray from (odd, testData.length)
+
+    testData = newArray
+    
+swap:
+    temp = nums[i]
+    nums[i] = nums[j]
+    nums[j] = temp
