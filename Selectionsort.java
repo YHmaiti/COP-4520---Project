@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Stack;
 
 class Utility
 {
@@ -41,9 +42,9 @@ class Boundries
 }
 
 
-public class Selectionsort {   
+public class Selectionsort {
     
-    public static void MMBPSS(int arr[]) // MMBPSS is for Min-Max Bidirectional Parallel Selection Sort 
+    public static void MMBPSS(int arr[]) // MMBPSS is for Min-Max Bidirectional Parallel Selection Sort
     {
         int size = arr.length;
         int mid = size / 2;
@@ -53,7 +54,6 @@ public class Selectionsort {
         while (bound.start < bound.end)
         {
             
-
             Thread[] threads = new Thread[2];
 
             Utility util = new Utility();
@@ -82,8 +82,6 @@ public class Selectionsort {
             
             });
 
-            threads[0].start();
-
             threads[1] = new Thread(() -> {
 
                 for (int j = mid; j <= bound.end; j++)
@@ -106,6 +104,7 @@ public class Selectionsort {
             
             });
 
+            threads[0].start();
             threads[1].start();
 
             for (Thread thread : threads) {
@@ -171,9 +170,41 @@ public class Selectionsort {
                     index = j; //searching for lowest index  
                 }  
             }  
-            int smallerNumber = arr[index];   
-            arr[index] = arr[i];  
-            arr[i] = smallerNumber;  
+            swap(arr, index, i);
+            // int smallerNumber = arr[index];   
+            // arr[index] = arr[i];  
+            // arr[i] = smallerNumber;  
+        }  
+    } 
+    
+    public static void dynamicSelectionSort(int[] arr){  
+
+        Stack<Integer> minStack = new Stack<>();
+        HashMap<Integer, Integer> indexMap = new HashMap<>();
+        minStack.push(arr[0]);
+        indexMap.put(arr[0], 0);
+        
+        int startOfSearch = 1;
+
+        for (int i = 0; i < arr.length - 1; i++)  
+        {  
+            for (int j = startOfSearch; j < arr.length; j++){  
+                if (minStack.isEmpty() || arr[j] < minStack.peek()){  
+                    // index = j; //searching for lowest index
+                    // System.out.println();
+                    minStack.push(arr[j]);
+                    indexMap.put(arr[j], j);
+
+                }  
+            }  
+
+            int min = minStack.pop();
+            int swapedValue = arr[i];
+            
+            swap(arr, indexMap.get(min), i);
+
+            indexMap.put(swapedValue, indexMap.get(min));
+            indexMap.put(min, i);
         }  
     }  
 
@@ -188,27 +219,42 @@ public class Selectionsort {
             return true; // If this part has been reached, the array must be sorted.
         }
        
-    public static void main(String a[]){  
+    public static void main(String a[]){
         Random random = new Random();
-        int[] arr1 = random.ints(100000, 10,10000).toArray();
+
 
         // System.out.println("before Selection Sort");  
         // for(int i:arr1){  
         //     System.out.print(" -" + i + "- ");        }  
         System.out.println();
 
+        int[] arr1 = random.ints(600000, 10,10000).toArray();
         long startTime = System.nanoTime();
-        // selectionSort(arr1);//sorting array using selection sort  
-        MMBPSS(arr1);
-        // System.out.println("\n" + (isSorted(arr1) ? "Array sorted successfully" : "unsuccessful sorting"));
+        System.out.println("Running regular selectionSort on " + arr1.length + " elements");
+        selectionSort(arr1);//sorting array using selection sort
         long endTime = System.nanoTime();
+        System.out.println("\n" + (isSorted(arr1) ? "Array sorted successfully" : "unsuccessful sorting"));
+        System.out.println("\nTime it took to execute sort: " + String.format("%.4f",((double)(endTime - startTime) / 1000000)/1000) + " seconds" );
+
+
+        int[] arr2 = random.ints(600000, 10,10000).toArray();
+        startTime = System.nanoTime();
+        System.out.println("Running MMBPSS selectionSort on " + arr2.length + " elements");
+        MMBPSS(arr2);//sorting array using selection sort
+        endTime = System.nanoTime();
+        System.out.println("\n" + (isSorted(arr2) ? "Array sorted successfully" : "unsuccessful sorting"));
+        System.out.println("\nTime it took to execute sort: " + String.format("%.4f",((double)(endTime - startTime) / 1000000)/1000) + " seconds" );
+
+        // System.out.println("Running MMBPSS on " + arr1.length + " elements");
+        // MMBPSS(arr1);
+        // dynamicSelectionSort(arr1);
+   
 
         // System.out.println("After Selection Sort");  
-        // for(int i:arr1){  
+        // for(int i:arr2){  
         //     System.out.print(" -" + i + "- ");  
         // }  
 
 
-        System.out.println("\nTime it took to execute parallel selection sort: " + String.format("%.4f",((double)(endTime - startTime) / 1000000)/1000) + " seconds" );
     }  
 }  

@@ -1,0 +1,53 @@
+    public static void MMBPSS(int arr[]) // MMBPSS is for Min-Max Bidirectional Parallel Selection Sort
+    {
+        set midPoint to be middle of the array
+
+        store the boundries of the array in an object named Bound
+        
+
+        while (the lower and higher boundies in Bound don't cross)
+        {
+
+            make a Util object that stores the max and min of the left and the right section of the array
+
+            Set thread 0 to the following:
+                start from the lower boundry from Bound
+                loop from the start to the midPoint of the array, this thread will iterate over the left section of the array
+                compare the current element with the max and min of the left subarray and update the max and min of the current element replaces the as the new min or max 
+                    We also replace the min and max indices to represent the new max and min
+
+            Set thread 1 to the following:
+                start from the mindPoint 
+                loop from the mindPoint to the upper boundry obtained from Bound, this thread will iterate over the right section of the array
+                compare the current element with the max and min of the right subarray and update the max and min of the current element replaces the as the new min or max 
+                    We also replace the min and max indices to represent the new max and min
+
+            start thread 0 and thread 1
+
+            join both threads to the main thread
+
+
+            if the min of left subarray is less than the min of the right subarray
+                if the max of the left subarray is start of the boundry
+                    replace the left subarray max's index to be the index of the left subarray min's index
+                swap the min of the left subarray and the start bound element
+            else
+                if the max of the left subarray is start of the boundry
+                    replace the left subarray max's index to be the index of the right subarray min's index
+                swap the min of the right subarray and the start bound element
+
+            if the difference of start and end bounds is more the one
+                if the max of the left subarray is larger than the max of right subarray
+                    swap the max of the left subarray with the end boundry of the array
+                else
+                    swap the max of the right subarray with the end boundry of the array
+
+            increment the start boudry 
+            decrement the end boundry
+
+            bound.start++;
+            bound.end --;
+
+        }
+
+    }
