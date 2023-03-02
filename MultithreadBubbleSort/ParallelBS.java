@@ -1,47 +1,52 @@
+import java.io.*;
 import java.util.*;
 
 public class ParallelBS implements Runnable{
+    private static int[] testData;
+    private static Map<Thread, Integer> map = new HashMap<>();
 
-    static int[] testData;
-    static Map<Thread, Integer> map = new HashMap<>();
+    private static int smallSize = (int) Math.pow(10, 4);
+
+    private static String[] testFiles = new String[]{"SmallTC1", "SmallTC2", "MediumTC1", "MediumTC2", "LargeTC1", "LargeTC2"};
+    private static int[] sizes = new int[]{smallSize, smallSize * 5, smallSize * 10, smallSize * 50, smallSize * 100, smallSize * 500};
 
     public static void main(String[] args) throws Exception{
-        // The amount of memory prior to execution of the threads
-        long preSortingMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        for(int i = 0; i < testFiles.length; i++){
+            testData = readInput(new Scanner(new File("../TestCases/" + testFiles[i] + ".txt")), sizes[i]);
 
-        int size = getRandomNum();
-        testData = new int[size];
+            System.out.println("Test Case " + (i + 1) + ":");
 
-        for(int j = 0; j < size; j++)
-            testData[j] = getRandomNum();
+            // The amount of memory prior to execution of the threads
+            long preSortingMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 
-        long start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
 
-        ParallelBS p = new ParallelBS();
+            ParallelBS p = new ParallelBS();
 
-        Thread t1 = new Thread(p);
-        Thread t2 = new Thread(p);
+            Thread t1 = new Thread(p);
+            Thread t2 = new Thread(p);
 
-        map.put(t1, 0);
-        map.put(t2, 1);
+            map.put(t1, 0);
+            map.put(t2, 1);
 
-        t1.start();
-        t2.start();
+            t1.start();
+            t2.start();
 
-        t1.join(0);
-        t2.join(0);
+            t1.join(0);
+            t2.join(0);
 
-        combine();
+            combine();
 
-        long end = System.currentTimeMillis();
+            long end = System.currentTimeMillis();
 
-        System.out.println("Execution Time: " + (end - start) + "ms");
+            System.out.println("Execution Time: " + (end - start) + "ms");
 
-        long postSortingMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+            long postSortingMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 
-        long memoryUsed = postSortingMemory - preSortingMemory;
+            long memoryUsed = postSortingMemory - preSortingMemory;
 
-        System.out.println("Total Memory Usage: " + memoryUsed + "mb");
+            System.out.println("Total Memory Usage: " + memoryUsed + " bytes\n");
+        }
     }
 
     // Runs the concurrent bubble sort algorithm
@@ -124,5 +129,14 @@ public class ParallelBS implements Runnable{
     // Will generate a random array size from [1, 100000]
     private static int getRandomNum(){
         return (int) (Math.random() * 100000) + 1;
+    }
+
+    private static int[] readInput(Scanner s, int size){
+        int[] nums = new int[size];
+
+        for(int i = 0; i < size; i++)
+            nums[i] = Integer.parseInt(s.nextLine());
+
+        return nums;
     }
 }

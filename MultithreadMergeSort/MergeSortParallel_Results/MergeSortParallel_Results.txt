@@ -1,0 +1,19 @@
+Content:
+test case size: 10^8
+	Execution time (ms): 766.0
+	Memory usage (bytes): 91854648.0000
+test case size: 5 * 10^8
+	Execution time (ms): 3346.0
+	Memory usage (bytes): 319838912.0000
+test case size: 10^7
+	Execution time (ms): 51.0
+	Memory usage (bytes): 197305784.0000
+test case size: 5 * 10^7
+	Execution time (ms): 257.0
+	Memory usage (bytes): -190648552.0000
+test case size: 10^6
+	Execution time (ms): 4.0
+	Memory usage (bytes): 17519760.0000
+test case size: 5 * 10^6
+	Execution time (ms): 29.0
+	Memory usage (bytes): 94371840.0000
