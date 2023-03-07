@@ -52,7 +52,7 @@ javac InsertionSort.java
 java InsertionSort
 ```
 
-**Overleaf Document [Compile Main.text]**
+**Overleaf Document [Compile Main.tex]**
 ```
 https://www.overleaf.com/read/tmjtvyvkbpds
 ```
