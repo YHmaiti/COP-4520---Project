@@ -226,43 +226,6 @@ public class Selectionsort {
         }
        
     public static void main(String a[]){
-        // Random random = new Random();
-
-
-        // System.out.println("before Selection Sort");  
-        // for(int i:arr1){  
-        //     System.out.print(" -" + i + "- ");        }  
-        // System.out.println();
-
-        // int[] arr1 = random.ints(600000, 10,10000).toArray();
-        // long startTime = System.nanoTime();
-        // System.out.println("Running regular selectionSort on " + arr1.length + " elements");
-        // selectionSort(arr1);//sorting array using selection sort
-        // long endTime = System.nanoTime();
-        // System.out.println("\n" + (isSorted(arr1) ? "Array sorted successfully" : "unsuccessful sorting"));
-        // System.out.println("\nTime it took to execute sort: " + String.format("%.4f",((double)(endTime - startTime) / 1000000)/1000) + " seconds" );
-
-
-        // int[] arr2 = random.ints(600000, 10,10000).toArray();
-        // startTime = System.nanoTime();
-        // System.out.println("Running MMBPSS selectionSort on " + arr2.length + " elements");
-        // MMBPSS(arr2);//sorting array using selection sort
-        // endTime = System.nanoTime();
-        // System.out.println("\n" + (isSorted(arr2) ? "Array sorted successfully" : "unsuccessful sorting"));
-        // System.out.println("\nTime it took to execute sort: " + String.format("%.4f",((double)(endTime - startTime) / 1000000)/1000) + " seconds" );
-
-        // System.out.println("Running MMBPSS on " + arr1.length + " elements");
-        // MMBPSS(arr1);
-        // dynamicSelectionSort(arr1);
-   
-
-        // System.out.println("After Selection Sort");  
-        // for(int i:arr2){  
-        //     System.out.print(" -" + i + "- ");  
-        // }  
-
-
-
 
         File file = new File("SelectionSortParallel_Results\\Results.txt");
         PrintWriter writer;
@@ -297,8 +260,6 @@ public class Selectionsort {
             Long endTime = System.nanoTime();
             Long afterUsedMem= Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             Long actualMemUsed= afterUsedMem - beforeUsedMem;
-            // System.out.println("\n" + (isSorted(SmallTC1) ? "Array sorted successfully" : "unsuccessful sorting"));
-
             writer.println("    Execution time (ms): " + String.format("%.4f",((double)(endTime - startTime) / 1000000)));
             writer.println("	Memory usage (bytes): " + actualMemUsed);
             writer.println("");
@@ -331,8 +292,6 @@ public class Selectionsort {
             endTime = System.nanoTime();
             afterUsedMem= Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             actualMemUsed= afterUsedMem - beforeUsedMem;
-            // System.out.println("\n" + (isSorted(SmallTC2) ? "Array sorted successfully" : "unsuccessful sorting"));
-
             writer.println("    Execution time (ms): " + String.format("%.4f",((double)(endTime - startTime) / 1000000)));
             writer.println("	Memory usage (bytes): " + actualMemUsed);
             writer.println("");
@@ -365,8 +324,6 @@ public class Selectionsort {
             endTime = System.nanoTime();
             afterUsedMem= Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             actualMemUsed= afterUsedMem - beforeUsedMem;
-            // System.out.println("\n" + (isSorted(MediumTC1) ? "Array sorted successfully" : "unsuccessful sorting"));
-
             writer.println("    Execution time (ms): " + String.format("%.4f",((double)(endTime - startTime) / 1000000)));
             writer.println("	Memory usage (bytes): " + actualMemUsed);
             writer.println("");
@@ -399,8 +356,6 @@ public class Selectionsort {
             endTime = System.nanoTime();
             afterUsedMem= Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             actualMemUsed= afterUsedMem - beforeUsedMem;
-            // System.out.println("\n" + (isSorted(MediumTC2) ? "Array sorted successfully" : "unsuccessful sorting"));
-
             writer.println("    Execution time (ms): " + String.format("%.4f",((double)(endTime - startTime) / 1000000)));
             writer.println("	Memory usage (bytes): " + actualMemUsed);
             writer.println("");

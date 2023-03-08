@@ -1,6 +1,6 @@
 Content
 Test case size: 10000
-    Execution time (ms): 886.0320
+    Execution time (ms): 886.0320 
 	Memory usage (bytes): 7003800
 
 Test case size: 50000

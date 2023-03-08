@@ -1,53 +1,64 @@
-    public static void MMBPSS(int arr[]) // MMBPSS is for Min-Max Bidirectional Parallel Selection Sort
-    {
-        set midPoint to be middle of the array
-
-        store the boundries of the array in an object named Bound
-        
-
-        while (the lower and higher boundies in Bound don't cross)
-        {
-
-            make a Util object that stores the max and min of the left and the right section of the array
-
-            Set thread 0 to the following:
-                start from the lower boundry from Bound
-                loop from the start to the midPoint of the array, this thread will iterate over the left section of the array
-                compare the current element with the max and min of the left subarray and update the max and min of the current element replaces the as the new min or max 
-                    We also replace the min and max indices to represent the new max and min
-
-            Set thread 1 to the following:
-                start from the mindPoint 
-                loop from the mindPoint to the upper boundry obtained from Bound, this thread will iterate over the right section of the array
-                compare the current element with the max and min of the right subarray and update the max and min of the current element replaces the as the new min or max 
-                    We also replace the min and max indices to represent the new max and min
-
-            start thread 0 and thread 1
-
-            join both threads to the main thread
+   void MMBPSS(int arr[]) // MMBPSS is for Min-Max Bidirectional Parallel Selection Sort
+        midPoint = arr.length / 2
+        bound = Boundry(0, arr.lengh)
 
 
-            if the min of left subarray is less than the min of the right subarray
-                if the max of the left subarray is start of the boundry
-                    replace the left subarray max's index to be the index of the left subarray min's index
-                swap the min of the left subarray and the start bound element
+        while (bound.low < bound.high)
+            util = new Utility()
+
+            Thread[] threads = new Thread[2]
+
+
+            threads[0] = new Thread(() -> {
+
+                startT = bound.start
+                for (int i = startT; i < midPoint; i++)
+                    if (arr[i] < util.min1)
+                        util.min1 = arr[i]
+                        util.min1Index = i
+    
+                    if (arr[i] > util.max1)
+                        util.max1 = arr[i]
+                        util.max1Index = i          
+            });
+
+            threads[1] = new Thread(() -> {
+
+                for (int j = midPoint; j <= bound.end; j++)
+                    if (arr[j] < util.min2)
+                        util.min2 = arr[j]
+                        util.min2Index = j
+    
+                    if (arr[j] > util.max2)
+                        util.max2 = arr[j]
+                        util.max2Index = j   
+            
+            });
+
+            threads[0].start()
+            threads[1].start()
+
+            for (Thread thread : threads)
+                try
+                    thread.join()
+                catch (InterruptedException e) 
+                    e.printStackTrace()
+
+            if (util.min1 < util.min2)
+                if (util.max1Index == bound.start)
+                    util.max1Index = util.min1Index
+                swap(arr, util.min1Index, bound.start)
             else
-                if the max of the left subarray is start of the boundry
-                    replace the left subarray max's index to be the index of the right subarray min's index
-                swap the min of the right subarray and the start bound element
+                if (util.max1Index == bound.start)
+                    util.max1Index = util.min2Index
+                swap(arr, util.min2Index, bound.start)
 
-            if the difference of start and end bounds is more the one
-                if the max of the left subarray is larger than the max of right subarray
-                    swap the max of the left subarray with the end boundry of the array
+            if (bound.end - bound.start > 1)
+                if (util.max1 > util.max2)
+                    swap(arr, util.max1Index, bound.end)
                 else
-                    swap the max of the right subarray with the end boundry of the array
-
-            increment the start boudry 
-            decrement the end boundry
+                    swap(arr, util.max2Index, bound.end)
 
             bound.start++;
             bound.end --;
-
-        }
-
-    }
+        
