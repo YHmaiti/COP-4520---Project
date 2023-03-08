@@ -1,0 +1,23 @@
+filename: SmallTC1.txt
+Runtime: 10 ms
+Memory used: 6752328 bytes
+
+filename: SmallTC2.txt
+Runtime: 36 ms
+Memory used: 3994288 bytes
+
+filename: MediumTC1.txt
+Runtime: 52 ms
+Memory used: 16616936 bytes
+
+filename: MediumTC2.txt
+Runtime: 105 ms
+Memory used: 20969472 bytes
+
+filename: LargeTC1.txt
+Runtime: 171 ms
+Memory used: 28311552 bytes
+
+filename: LargeTC2.txt
+Runtime: 315 ms
+Memory used: 94371840 bytes
