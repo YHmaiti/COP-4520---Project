@@ -1,0 +1,17 @@
+Content
+Test case size: 10000
+    Execution time (ms): 886.0320 
+	Memory usage (bytes): 7003800
+
+Test case size: 50000
+    Execution time (ms): 4501.9223
+	Memory usage (bytes): 31457280
+
+Test case size: 100000
+    Execution time (ms): 10269.5593
+	Memory usage (bytes): -88253024
+
+Test case size: 500000
+    Execution time (ms): 74966.3742
+	Memory usage (bytes): 31415952
+

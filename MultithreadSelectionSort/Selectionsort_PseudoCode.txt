@@ -1,0 +1,64 @@
+   void MMBPSS(int arr[]) // MMBPSS is for Min-Max Bidirectional Parallel Selection Sort
+        midPoint = arr.length / 2
+        bound = Boundry(0, arr.lengh)
+
+
+        while (bound.low < bound.high)
+            util = new Utility()
+
+            Thread[] threads = new Thread[2]
+
+
+            threads[0] = new Thread(() -> {
+
+                startT = bound.start
+                for (int i = startT; i < midPoint; i++)
+                    if (arr[i] < util.min1)
+                        util.min1 = arr[i]
+                        util.min1Index = i
+    
+                    if (arr[i] > util.max1)
+                        util.max1 = arr[i]
+                        util.max1Index = i          
+            });
+
+            threads[1] = new Thread(() -> {
+
+                for (int j = midPoint; j <= bound.end; j++)
+                    if (arr[j] < util.min2)
+                        util.min2 = arr[j]
+                        util.min2Index = j
+    
+                    if (arr[j] > util.max2)
+                        util.max2 = arr[j]
+                        util.max2Index = j   
+            
+            });
+
+            threads[0].start()
+            threads[1].start()
+
+            for (Thread thread : threads)
+                try
+                    thread.join()
+                catch (InterruptedException e) 
+                    e.printStackTrace()
+
+            if (util.min1 < util.min2)
+                if (util.max1Index == bound.start)
+                    util.max1Index = util.min1Index
+                swap(arr, util.min1Index, bound.start)
+            else
+                if (util.max1Index == bound.start)
+                    util.max1Index = util.min2Index
+                swap(arr, util.min2Index, bound.start)
+
+            if (bound.end - bound.start > 1)
+                if (util.max1 > util.max2)
+                    swap(arr, util.max1Index, bound.end)
+                else
+                    swap(arr, util.max2Index, bound.end)
+
+            bound.start++;
+            bound.end --;
+        
