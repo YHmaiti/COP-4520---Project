@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Stack;
@@ -220,30 +224,30 @@ public class Selectionsort {
         }
        
     public static void main(String a[]){
-        Random random = new Random();
+        // Random random = new Random();
 
 
         // System.out.println("before Selection Sort");  
         // for(int i:arr1){  
         //     System.out.print(" -" + i + "- ");        }  
-        System.out.println();
+        // System.out.println();
 
-        int[] arr1 = random.ints(600000, 10,10000).toArray();
-        long startTime = System.nanoTime();
-        System.out.println("Running regular selectionSort on " + arr1.length + " elements");
-        selectionSort(arr1);//sorting array using selection sort
-        long endTime = System.nanoTime();
-        System.out.println("\n" + (isSorted(arr1) ? "Array sorted successfully" : "unsuccessful sorting"));
-        System.out.println("\nTime it took to execute sort: " + String.format("%.4f",((double)(endTime - startTime) / 1000000)/1000) + " seconds" );
+        // int[] arr1 = random.ints(600000, 10,10000).toArray();
+        // long startTime = System.nanoTime();
+        // System.out.println("Running regular selectionSort on " + arr1.length + " elements");
+        // selectionSort(arr1);//sorting array using selection sort
+        // long endTime = System.nanoTime();
+        // System.out.println("\n" + (isSorted(arr1) ? "Array sorted successfully" : "unsuccessful sorting"));
+        // System.out.println("\nTime it took to execute sort: " + String.format("%.4f",((double)(endTime - startTime) / 1000000)/1000) + " seconds" );
 
 
-        int[] arr2 = random.ints(600000, 10,10000).toArray();
-        startTime = System.nanoTime();
-        System.out.println("Running MMBPSS selectionSort on " + arr2.length + " elements");
-        MMBPSS(arr2);//sorting array using selection sort
-        endTime = System.nanoTime();
-        System.out.println("\n" + (isSorted(arr2) ? "Array sorted successfully" : "unsuccessful sorting"));
-        System.out.println("\nTime it took to execute sort: " + String.format("%.4f",((double)(endTime - startTime) / 1000000)/1000) + " seconds" );
+        // int[] arr2 = random.ints(600000, 10,10000).toArray();
+        // startTime = System.nanoTime();
+        // System.out.println("Running MMBPSS selectionSort on " + arr2.length + " elements");
+        // MMBPSS(arr2);//sorting array using selection sort
+        // endTime = System.nanoTime();
+        // System.out.println("\n" + (isSorted(arr2) ? "Array sorted successfully" : "unsuccessful sorting"));
+        // System.out.println("\nTime it took to execute sort: " + String.format("%.4f",((double)(endTime - startTime) / 1000000)/1000) + " seconds" );
 
         // System.out.println("Running MMBPSS on " + arr1.length + " elements");
         // MMBPSS(arr1);
@@ -254,6 +258,37 @@ public class Selectionsort {
         // for(int i:arr2){  
         //     System.out.print(" -" + i + "- ");  
         // }  
+
+        // File file = new File("");
+
+        // try {
+    
+        //     Scanner sc = new Scanner(file);
+    
+        //     while (sc.hasNextLine()) {
+        //         int i = sc.nextInt();
+        //         System.out.println(i);
+        //     }
+        //     sc.close();
+        // } 
+        // catch (FileNotFoundException e) {
+        //     e.printStackTrace();
+        // }
+
+        File file = new File("SelectionSortParallel_Results\\Results.txt");
+        PrintWriter writer;
+        try {
+            writer = new PrintWriter("SelectionSortParallel_Results\\Results.txt", "UTF-8");
+
+            writer.println("The first line");
+            writer.println("The second line");
+            writer.close();
+
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
 
 
     }  
