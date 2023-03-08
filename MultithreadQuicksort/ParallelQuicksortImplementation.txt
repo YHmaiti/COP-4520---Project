@@ -1,0 +1,24 @@
+Main.java handles input and output as well as tracking runtime and memory usage.
+It reads all of the numbers in input.txt into an array, starts time, and sends the array
+to be sorted. Once all threads have shut down and the sort is complete, it stops time and 
+prints the output to output.txt and the runtime and memory used to the standard output.
+
+Quicksort is a class that implements the Runnable interface. When it is created, it is given
+the array to be sorted, the low and high indicies to start and stop sorting at, and the minimum
+size of the array to be sorted.
+
+When Quicksort is run, the sort function is called. 
+First, the function checks if the designated length is below the minimum length. If it is, it returns.
+A pivot value within the selected portion of the array is randomly chosen. Its position is swapped 
+with the value of the given high index.
+A pointer variable is created that points the the current index for the next part.
+Next, the function iterates through the selected portion of the array. If the value of the current index
+is less than or equal to the pivot value, its position is switched with the value of the current index
+and the current index pointer is incremented.
+After the loop, the current index value is swapped with the value at the high index.
+
+After all of this, the function has to decide how to split the remaining work.
+If the length of the current selection of the array is greater than the minimum size, a new instance of
+Quicksort will be created and called to run on the lower half of the current selection. This quicksort will
+then run a sort on the higher half of the current selection.
+If the array is equal to the minimum length, the current quicksort will handle sorting both of its halves.
