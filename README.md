@@ -41,8 +41,7 @@ java Selectionsort
 **Quick Sort**
 ```
 cd MultithreadQuickSort/src
-javac Quicksort.java
-javac Main.java
+javac Quicksort.java Main.java
 java Main
 ```
 
