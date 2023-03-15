@@ -20,7 +20,7 @@ public class ParallelBS implements Runnable{
             long preSortingMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 
             long start = System.currentTimeMillis();
-
+            
             ParallelBS p = new ParallelBS();
 
             Thread t1 = new Thread(p);
