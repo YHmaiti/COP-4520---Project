@@ -14,3 +14,45 @@ For analysis, each algorithm is ran under a set of test cases of different sizes
 * Selection Sort
 * Quick Sort
 * Insertion Sort
+
+## Execution Instructions
+
+**Bubble Sort**
+```
+cd MultithreadBubbleSort
+javac ParallelBS.java
+java ParallelBS
+```
+
+**Merge Sort**
+```
+cd MultithreadMergeSort
+javac MergeSortWithParallelizationV2.java
+java MergeSortWithParallelizationV2
+```
+
+**Selection Sort**
+```
+cd MultithreadSelectionSort
+javac Selectionsort.java
+java Selectionsort
+```
+
+**Quick Sort**
+```
+cd MultithreadQuickSort/src
+javac Quicksort.java Main.java
+java Main
+```
+
+**Insertion Sort**
+```
+cd MultithreadInsertionSort
+javac InsertionSort.java
+java InsertionSort
+```
+
+**Overleaf Document [Compile Main.tex]**
+```
+https://www.overleaf.com/read/tmjtvyvkbpds
+```

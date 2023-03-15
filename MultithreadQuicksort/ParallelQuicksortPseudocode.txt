@@ -1,0 +1,46 @@
+sort (arr, low, high):
+
+length = high - low + 1
+if length <= 1 return
+
+pivot = random arr element between low and high
+swap(pivot, high)
+
+curIndex = low
+for (i = low, i < high, inc i) 
+	if (arr[i] <= pivotVal), swap(i, curIndex) and inc curIndex
+
+swap(curIndex, high)
+
+if (length > minSize)
+	new Quicksort quick(arr, low, curIndex-1)
+	executorservice.submit(quick)
+	sort(arr, curIndex+1, high)
+else
+	sort(arr, low, curIndex-1)
+	sort(arr, curIndex+1, high)
+
+
+
+main:
+inputFile = new File(inputname)
+input = new Scanner(inputfile)
+ArrayList inputList
+
+while (input.hasNextInt)
+	inputList.add(input.nextInt)
+int[] arr = inputList.toArray
+
+long startTime = currentTime
+long startMem = totalMem - freeMem
+
+Quicksort quicksort = new Quicksort(arr, 0, arr.length-1)
+quicksort.run
+
+quicksort.executorservice.shutdown
+
+long endTime = current time
+long endMem = totalMem - freeMem
+
+print arr to outputfile
+print endTime and endMem to stdout
